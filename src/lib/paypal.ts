@@ -75,7 +75,7 @@ export async function fetchInvoice(id: string): Promise<{ real: RealCheck; invoi
 }
 
 export type PayoutResult =
-  | { ok: true; reference: string; status: string }
+  | { ok: true; reference: string; status: string; amount: number; at: string; earlier: boolean }
   | { ok: false; detail: string };
 
 /**
@@ -100,7 +100,13 @@ export async function sendPayout(invoiceId: string, email: string, amount: numbe
     }),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) return { ok: false, detail: data.message ?? `PayPal refused the payout (HTTP ${res.status})` };
+  if (!res.ok) {
+    // Already paid, from another copy of the app or before its record was lost. PayPal links
+    // to the earlier batch, which is the proof of payment.
+    const earlier = data.details?.find((d: { field?: string }) => d.field === "SENDER_BATCH_ID")?.link?.[0]?.href;
+    if (earlier) return earlierPayout(earlier.split("/").pop());
+    return { ok: false, detail: data.details?.[0]?.issue ?? data.message ?? `PayPal refused the payout (HTTP ${res.status})` };
+  }
   const reference: string = data.batch_header.payout_batch_id;
 
   // A sandbox payout settles within seconds. Wait briefly so the owner sees the result.
@@ -111,7 +117,22 @@ export async function sendPayout(invoiceId: string, email: string, amount: numbe
     if (poll.ok) status = (await poll.json()).batch_header.batch_status;
   }
   if (status === "DENIED" || status === "CANCELED") return { ok: false, detail: `PayPal ${status.toLowerCase()} the payout` };
-  return { ok: true, reference, status };
+  return { ok: true, reference, status, amount, at: new Date().toISOString(), earlier: false };
+}
+
+async function earlierPayout(reference: string): Promise<PayoutResult> {
+  const res = await call(`/v1/payments/payouts/${reference}`);
+  if (!res.ok) return { ok: false, detail: "PayPal says this invoice was paid out before, but the earlier payment could not be read" };
+  const header = (await res.json()).batch_header;
+  if (header.batch_status !== "SUCCESS") return { ok: false, detail: `An earlier payout for this invoice is ${String(header.batch_status).toLowerCase()}` };
+  return {
+    ok: true,
+    reference,
+    status: header.batch_status,
+    amount: Number(header.amount?.value ?? 0),
+    at: header.time_completed ?? header.time_created,
+    earlier: true,
+  };
 }
 
 export interface HistoryPayment {

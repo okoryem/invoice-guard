@@ -39,7 +39,7 @@ export async function reviewInvoice(input: string): Promise<Review | { error: st
   // Keep what the owner already did with this invoice; a re-check must not undo a rejection.
   const previous = await getReview(id);
   let outcome: Outcome | null = previous?.outcome ?? null;
-  if (verdict === "pay" && invoice?.senderEmail && outcome?.state !== "rejected") {
+  if (verdict === "pay" && invoice?.senderEmail && (!outcome || outcome.state === "failed")) {
     outcome = await pay(invoice, "agent");
   }
 
@@ -64,17 +64,19 @@ async function pay(invoice: InvoiceFacts, by: "agent" | "owner"): Promise<Outcom
   const now = new Date().toISOString();
   const result = await sendPayout(invoice.id, invoice.senderEmail!, invoice.amount, invoice.currency);
   if (!result.ok) return { state: "failed", at: now, detail: result.detail };
+  // An earlier payout is recorded with its own amount and time, not this invoice's.
+  const amount = result.earlier ? result.amount : invoice.amount;
   await recordPayment({
     vendorEmail: invoice.senderEmail!,
-    amount: invoice.amount,
+    amount,
     currency: invoice.currency,
     invoiceId: invoice.id,
     method: "payout",
     source: "agent",
     reference: result.reference,
-    paidAt: now,
+    paidAt: result.at,
   });
-  return { state: "paid", by, method: "payout", amount: invoice.amount, currency: invoice.currency, at: now, reference: result.reference };
+  return { state: "paid", by: result.earlier ? "agent" : by, method: "payout", amount, currency: invoice.currency, at: result.at, reference: result.reference };
 }
 
 export type Action = "approve" | "reject" | "confirm";
