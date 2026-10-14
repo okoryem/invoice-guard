@@ -1,4 +1,4 @@
-import type { ExpectedCheck, Reason, RealCheck, Verdict, WordingCheck } from "./types";
+import type { ExpectedCheck, PriorPayment, Reason, RealCheck, Verdict, WordingCheck } from "./types";
 
 // Jev's overall scam probability. Above BLOCK the wording alone is enough to stop;
 // between the two the owner is asked. Measured on spike/requests*.json.
@@ -28,6 +28,8 @@ export interface DecisionInput {
   expected: ExpectedCheck | null;
   wording: WordingCheck | null;
   autoPayLimit: number;
+  /** A payment already made against this invoice, by the agent or found in PayPal's history. */
+  alreadyPaid?: PriorPayment | null;
 }
 
 export function firedFlags(wording: WordingCheck | null): Reason[] {
@@ -38,7 +40,7 @@ export function firedFlags(wording: WordingCheck | null): Reason[] {
 }
 
 export function decide(input: DecisionInput): { verdict: Verdict; reasons: Reason[] } {
-  const { real, status, amount, expected, wording, autoPayLimit } = input;
+  const { real, status, amount, expected, wording, autoPayLimit, alreadyPaid } = input;
 
   if (real.state === "not_found") {
     return { verdict: "block", reasons: [{ code: "no_record", text: "PayPal has no record of this invoice" }] };
@@ -48,6 +50,12 @@ export function decide(input: DecisionInput): { verdict: Verdict; reasons: Reaso
   }
   if (real.state === "error") {
     return { verdict: "ask", reasons: [{ code: "paypal_error", text: "PayPal could not be reached to confirm this invoice" }] };
+  }
+  // A payout does not mark the invoice paid on PayPal, so the agent's own record is what
+  // stops it paying the same invoice twice.
+  if (alreadyPaid) {
+    const day = new Date(alreadyPaid.at).toISOString().slice(0, 10);
+    return { verdict: "closed", reasons: [{ code: "already_paid", text: `Already paid on ${day}` }] };
   }
   if (status && !PAYABLE.has(status)) {
     return { verdict: "closed", reasons: [{ code: "not_payable", text: `Nothing to pay: PayPal lists this invoice as ${status.toLowerCase().replaceAll("_", " ")}` }] };

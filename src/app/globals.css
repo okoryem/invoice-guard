@@ -1,108 +1,127 @@
 @import "tailwindcss";
 
-/* Tokens follow DESIGN.md: a black-and-white frame, with one pastel block per view for the verdict. */
+/* Follows the "Sales Dashboard Design" Figma community file (Dabang): soft grey page,
+   white rounded cards, indigo for the active item, and pastel tiles with a strong icon colour. */
 :root {
-  --canvas: #ffffff;
-  --ink: #000000;
-  --hairline: #e6e6e6;
-  --hairline-soft: #f1f1f1;
-  --surface-soft: #f7f7f5;
-  --block-lime: #dceeb1;
-  --block-lilac: #c5b0f4;
-  --block-cream: #f4ecd6;
-  --block-pink: #efd4d4;
-  --block-mint: #c8e6cd;
-  --block-coral: #f3c9b6;
-  --success: #1ea64a;
+  --page: #fafbfc;
+  --card: #ffffff;
+  --ink: #151d48;
+  --muted: #737791;
+  --line: #edf2f6;
+  --primary: #5d5fef;
+
+  --pink-soft: #ffe2e5;
+  --pink: #fa5a7d;
+  --pink-ink: #be123c;
+  --cream-soft: #fff4de;
+  --orange: #ff947a;
+  --orange-ink: #c2410c;
+  --mint-soft: #dcfce7;
+  --green: #3cd856;
+  --green-ink: #15803d;
+  --lilac-soft: #f3e8ff;
+  --purple: #bf83ff;
+  --purple-ink: #7e22ce;
+  --slate-soft: #f1f5f9;
+  --slate-ink: #475569;
 }
 
 @theme inline {
-  --color-canvas: var(--canvas);
+  --color-page: var(--page);
+  --color-card: var(--card);
   --color-ink: var(--ink);
-  --color-hairline: var(--hairline);
-  --color-hairline-soft: var(--hairline-soft);
-  --color-surface-soft: var(--surface-soft);
-  --color-block-lime: var(--block-lime);
-  --color-block-lilac: var(--block-lilac);
-  --color-block-cream: var(--block-cream);
-  --color-block-pink: var(--block-pink);
-  --color-block-mint: var(--block-mint);
-  --color-block-coral: var(--block-coral);
-  --color-success: var(--success);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --radius-block: 24px;
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-pink-soft: var(--pink-soft);
+  --color-pink: var(--pink);
+  --color-pink-ink: var(--pink-ink);
+  --color-cream-soft: var(--cream-soft);
+  --color-orange: var(--orange);
+  --color-orange-ink: var(--orange-ink);
+  --color-mint-soft: var(--mint-soft);
+  --color-green: var(--green);
+  --color-green-ink: var(--green-ink);
+  --color-lilac-soft: var(--lilac-soft);
+  --color-purple: var(--purple);
+  --color-purple-ink: var(--purple-ink);
+  --color-slate-soft: var(--slate-soft);
+  --color-slate-ink: var(--slate-ink);
+  --font-sans: var(--font-poppins);
+  --shadow-card: 0 4px 20px rgba(238, 238, 238, 0.5);
 }
 
 html {
   color-scheme: light;
-  /* Keeps focused and linked content clear of the sticky header. */
-  scroll-padding-top: 72px;
+  scroll-padding-top: 104px;
 }
 
 body {
-  background: var(--canvas);
+  background: var(--page);
   color: var(--ink);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  font-weight: 330;
-  font-feature-settings: "kern";
+  font-family: var(--font-poppins), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Mono is taxonomy only: uppercase labels and captions. */
-.eyebrow {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
+.card {
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
 }
 
-.pill {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 44px;
   padding: 10px 20px;
-  border-radius: 50px;
-  font-weight: 480;
-  letter-spacing: -0.1px;
-  transition: transform 120ms ease, opacity 120ms ease;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 15px;
+  transition: background-color 120ms ease, opacity 120ms ease, transform 120ms ease;
   touch-action: manipulation;
 }
-.pill-primary:hover:not(:disabled) {
-  opacity: 0.8;
-}
-.pill:active {
+.btn:active:not(:disabled) {
   transform: scale(0.98);
 }
-.pill-primary {
-  background: var(--ink);
-  color: var(--canvas);
-}
-.pill-primary:disabled {
-  opacity: 0.4;
+.btn:disabled {
+  opacity: 0.5;
   cursor: progress;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #4b4de0;
+}
+.btn-outline {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px #c3d3e2;
+}
+.btn-outline:hover:not(:disabled) {
+  background: var(--page);
 }
 
 .skip-link {
   position: absolute;
   left: 16px;
   top: -100px;
-  z-index: 20;
+  z-index: 30;
 }
 .skip-link:focus {
   top: 8px;
 }
 
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pill {
+  .btn {
     transition: none;
   }
 }

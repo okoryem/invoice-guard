@@ -4,68 +4,91 @@ import { AllCommunityModule, ModuleRegistry, themeQuartz, type ColDef } from "ag
 import { AgGridReact } from "ag-grid-react";
 import { useMemo } from "react";
 import type { Review } from "@/lib/types";
-import { money, VERDICT } from "./verdict";
+import { money, standing, TONE, type Tone } from "./verdict";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const theme = themeQuartz.withParams({
   fontFamily: "inherit",
-  fontSize: 15,
+  fontSize: 14,
   backgroundColor: "#ffffff",
-  foregroundColor: "#000000",
+  foregroundColor: "#151d48",
   headerBackgroundColor: "#ffffff",
-  headerTextColor: "#000000",
-  headerFontFamily: "var(--font-geist-mono), ui-monospace, monospace",
-  headerFontSize: 12,
+  headerTextColor: "#737791",
+  headerFontSize: 13,
   headerFontWeight: 400,
-  borderColor: "#e6e6e6",
-  rowBorder: { color: "#f1f1f1" },
-  rowHoverColor: "#f7f7f5",
-  selectedRowBackgroundColor: "#f7f7f5",
-  accentColor: "#000000",
-  rowHeight: 52,
+  borderColor: "transparent",
+  rowBorder: { color: "#edf2f6" },
+  headerRowBorder: { color: "#edf2f6" },
+  columnBorder: false,
+  rowHoverColor: "#fafbfc",
+  selectedRowBackgroundColor: "#f3f3ff",
+  accentColor: "#5d5fef",
+  rowHeight: 56,
   headerHeight: 44,
-  wrapperBorderRadius: 24,
-  cellHorizontalPadding: 20,
+  wrapperBorder: false,
+  cellHorizontalPadding: 16,
 });
+
+function riskTone(p: number): Tone {
+  return p >= 0.8 ? "pink" : p > 0.2 ? "orange" : "green";
+}
+
+function Risk({ review }: { review: Review }) {
+  if (!review.wording) return <span className="text-muted">Not read</span>;
+  const p = review.wording.isScam;
+  const tone = TONE[riskTone(p)];
+  const pct = Math.round(p * 100);
+  return (
+    <span className="flex h-full items-center gap-3 leading-5">
+      <span className="h-1 w-20 overflow-hidden rounded-full bg-line" aria-hidden="true">
+        <span className={`block h-full rounded-full ${tone.bar}`} style={{ width: `${Math.max(pct, 3)}%` }} />
+      </span>
+      <span className={`rounded-md px-2 py-0.5 text-[12px] font-medium leading-5 tabular-nums ring-1 ring-current ${tone.ink}`}>{pct}%</span>
+    </span>
+  );
+}
 
 export function InvoiceTable({ reviews, onSelect }: { reviews: Review[]; onSelect: (id: string) => void }) {
   const columns = useMemo<ColDef<Review>[]>(
     () => [
       {
-        headerName: "VERDICT",
-        field: "verdict",
-        width: 150,
-        cellRenderer: ({ data }: { data?: Review }) =>
-          data && <span className={`rounded-md px-2.5 py-1 text-[13px] font-[480] ${VERDICT[data.verdict].block}`}>{VERDICT[data.verdict].label}</span>,
+        headerName: "Status",
+        width: 172,
+        valueGetter: ({ data }) => (data ? standing(data).label : ""),
+        cellRenderer: ({ data }: { data?: Review }) => {
+          if (!data) return null;
+          const s = standing(data);
+          return <span className={`whitespace-nowrap rounded-lg px-2.5 py-1 text-[12px] font-medium leading-5 ${TONE[s.tone].soft} ${TONE[s.tone].ink}`}>{s.label}</span>;
+        },
       },
       {
-        headerName: "FROM",
+        headerName: "From",
         flex: 1,
-        minWidth: 160,
+        minWidth: 150,
         valueGetter: ({ data }) => data?.invoice?.senderName ?? data?.invoice?.senderEmail ?? "Unknown sender",
+        tooltipValueGetter: ({ value }) => value,
       },
       {
-        headerName: "AMOUNT",
-        width: 130,
+        headerName: "Amount",
+        width: 120,
         type: "rightAligned",
-        cellClass: "tabular-nums",
+        cellClass: "tabular-nums font-medium",
         valueGetter: ({ data }) => data?.invoice?.amount ?? null,
         valueFormatter: ({ data, value }) => (value == null || !data?.invoice ? "" : money(value, data.invoice.currency)),
       },
       {
-        headerName: "WHY",
-        flex: 2,
-        minWidth: 220,
-        sortable: false,
-        tooltipValueGetter: ({ value }) => value,
-        valueGetter: ({ data }) => data?.reasons[0]?.text ?? "Real, known sender, usual amount, clean wording",
+        headerName: "Scam risk",
+        width: 170,
+        valueGetter: ({ data }) => data?.wording?.isScam ?? null,
+        cellRenderer: ({ data }: { data?: Review }) => data && <Risk review={data} />,
       },
       {
-        headerName: "CHECKED",
+        headerName: "Checked",
         field: "reviewedAt",
-        width: 120,
+        width: 110,
         sort: "desc",
+        cellClass: "text-muted",
         valueFormatter: ({ value }) => new Date(value).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
       },
     ],
@@ -73,7 +96,7 @@ export function InvoiceTable({ reviews, onSelect }: { reviews: Review[]; onSelec
   );
 
   return (
-    <div className="h-[460px]">
+    <div className="h-[440px]">
       <AgGridReact<Review>
         theme={theme}
         rowData={reviews}
@@ -82,7 +105,7 @@ export function InvoiceTable({ reviews, onSelect }: { reviews: Review[]; onSelec
         rowSelection={{ mode: "singleRow", checkboxes: false, enableClickSelection: true }}
         onRowClicked={({ data }) => data && onSelect(data.id)}
         onCellKeyDown={({ data, event }) => data && (event as KeyboardEvent | undefined)?.key === "Enter" && onSelect(data.id)}
-        overlayNoRowsTemplate="No invoices checked yet. Paste a link above."
+        overlayNoRowsTemplate="No invoices here yet. Paste a PayPal invoice link above."
       />
     </div>
   );

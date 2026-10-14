@@ -2,7 +2,7 @@
 
 An agent that pays a small business's PayPal invoices, and only pays what it can trust.
 
-Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/). Work in progress: invoices are checked and given a verdict, but nothing is paid automatically yet.
+Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/). Work in progress. Runs against the PayPal sandbox, so no real money moves.
 
 ## What it does
 
@@ -21,6 +21,15 @@ Paste a PayPal invoice link. The app runs three checks and decides.
 | Needs you | Anything in between, and every first-time sender |
 
 The agent never pays a sender for the first time without asking.
+
+## How it pays
+
+- **A vendor paid before, every check passed:** the agent pays at once, as a PayPal payout to the vendor's verified email.
+- **Something to check, vendor paid before:** the owner approves and the agent pays the same way.
+- **A first-time vendor, or one with no verified email:** the owner approves, then pays on PayPal's own invoice page, and the app confirms it with PayPal.
+- **Already paid:** the app keeps its own record of every payment and also loads past payments from PayPal's history, so it never pays an invoice twice.
+
+PayPal has no API for a payer to pay an invoice, so a payout moves the money but leaves the invoice open on PayPal until the vendor marks it paid.
 
 ## Run it
 
@@ -49,7 +58,8 @@ npm test
 - `src/lib/jev.ts` asks Jev eight yes/no questions about the wording.
 - `src/lib/decide.ts` turns the three checks into a verdict. Plain code, covered by tests.
 - `src/lib/explain.ts` asks Claude, through OpenRouter, for a short explanation when the owner has to decide.
-- `src/lib/review.ts` runs the whole thing for one invoice.
+- `src/lib/history.ts` loads past payments from PayPal into the app's record.
+- `src/lib/review.ts` runs the whole thing for one invoice, pays when safe, and handles the owner's approve and reject.
 - `spike/` holds the Python experiments that tested each piece first.
 
 ## AI tools used

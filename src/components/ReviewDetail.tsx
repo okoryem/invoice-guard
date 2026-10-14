@@ -1,36 +1,37 @@
 import { FLAG_FIRED, FLAG_TEXT } from "@/lib/decide";
-import type { Review } from "@/lib/types";
-import { money, VERDICT } from "./verdict";
+import type { Outcome, Review } from "@/lib/types";
+import { Icon, type IconName } from "./icons";
+import { money, standing, TONE, type Tone } from "./verdict";
 
 type Mark = "good" | "warn" | "bad" | "skip";
 
-// Shape and word carry the result as well as colour.
-const MARK: Record<Mark, { badge: string; word: string; path: string }> = {
-  good: { badge: "bg-block-mint", word: "Passed", path: "M4.5 8.5l2.5 2.5 4.5-5.5" },
-  warn: { badge: "bg-block-cream", word: "Check", path: "M8 4v5M8 11.5v.5" },
-  bad: { badge: "bg-block-coral", word: "Failed", path: "M5 5l6 6M11 5l-6 6" },
-  skip: { badge: "bg-surface-soft", word: "Skipped", path: "M5 8h6" },
+// Icon and word carry the result as well as colour.
+const MARK: Record<Mark, { tone: Tone; icon: IconName; word: string }> = {
+  good: { tone: "green", icon: "check", word: "Passed" },
+  warn: { tone: "orange", icon: "alert", word: "Check" },
+  bad: { tone: "pink", icon: "ban", word: "Failed" },
+  skip: { tone: "slate", icon: "minus", word: "Skipped" },
 };
 
 function Check({ title, by, mark, summary, children }: { title: string; by: string; mark: Mark; summary: string; children?: React.ReactNode }) {
   const m = MARK[mark];
   return (
-    <section className="rounded-(--radius-block) border border-hairline p-6">
-      <div className="flex items-center justify-between gap-3">
-        <h3 className="flex items-center gap-3 text-[20px] font-[540] tracking-[-0.2px]">
-          <span className={`grid size-7 shrink-0 place-items-center rounded-full ${m.badge}`}>
-            <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d={m.path} />
-            </svg>
-          </span>
-          {title}
-        </h3>
-        <span className="eyebrow text-right">{by}</span>
+    <section className="border-t border-line py-5 first:border-t-0 first:pt-0">
+      <div className="flex items-start gap-4">
+        <span className={`grid size-10 shrink-0 place-items-center rounded-full text-white ${TONE[m.tone].strong}`}>
+          <Icon name={m.icon} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+            <h3 className="text-[16px] font-semibold">{title}</h3>
+            <span className="text-[12px] text-muted">{by}</span>
+          </div>
+          <p className="mt-1 text-[14px] leading-[1.6] text-muted">
+            <span className={`font-medium ${TONE[m.tone].ink}`}>{m.word}.</span> {summary}
+          </p>
+          {children}
+        </div>
       </div>
-      <p className="mt-3 leading-[1.45]">
-        <span className="font-[540]">{m.word}.</span> {summary}
-      </p>
-      {children}
     </section>
   );
 }
@@ -69,57 +70,119 @@ function wordingCheck(review: Review): { mark: Mark; summary: string } {
   return { mark: "good", summary: `${pct}% likely a scam. The wording looks ordinary.` };
 }
 
-export function ReviewDetail({ review }: { review: Review }) {
-  const v = VERDICT[review.verdict];
+function outcomeText(o: Outcome): string {
+  const when = new Date(o.at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+  switch (o.state) {
+    case "paid":
+      return o.method === "payout"
+        ? `${o.by === "agent" ? "Paid automatically" : "Paid on your approval"} on ${when}, ${money(o.amount, o.currency)} sent to the vendor's verified email. The invoice stays open on PayPal until the vendor marks it paid.`
+        : `Paid on PayPal on ${when}. The vendor now counts as known.`;
+    case "awaiting_payment":
+      return "Approved. Pay it on PayPal's own invoice page, then check again so the vendor is remembered.";
+    case "rejected":
+      return `Rejected on ${when}. Nothing was paid.`;
+    case "failed":
+      return `The payment did not go through: ${o.detail}.`;
+  }
+}
+
+export type ReviewAction = "approve" | "reject" | "confirm";
+
+export function ReviewDetail({ review, onAct, acting }: { review: Review; onAct: (action: ReviewAction) => void; acting: ReviewAction | null }) {
+  const v = standing(review);
+  const tone = TONE[v.tone];
   const inv = review.invoice;
   const flags = review.wording ? Object.entries(review.wording.flags).sort((a, b) => b[1] - a[1]) : [];
 
   return (
-    <div className="flex flex-col gap-4" aria-live="polite">
-      <section className={`rounded-(--radius-block) p-8 ${v.block}`}>
-        <p className="eyebrow break-all" translate="no">
-          {review.id}
-        </p>
-        <h2 className="mt-4 text-[40px] font-[340] leading-[1.05] tracking-[-0.8px]">{v.label}</h2>
-        {inv && (
-          <p className="mt-3 text-[20px] leading-[1.4]">
-            <span className="font-[540] tabular-nums">{money(inv.amount, inv.currency)}</span> to {inv.senderName ?? inv.senderEmail ?? "an unnamed sender"}
-            {inv.dueDate && `, due ${inv.dueDate}`}
-          </p>
-        )}
-        {review.explanation && <p className="mt-4 leading-[1.45]">{review.explanation}</p>}
-        {review.verdict === "pay" && <p className="mt-4 leading-[1.45]">Every check passed. Automatic payment is the next piece to be built.</p>}
-        {review.verdict === "ask" && inv?.payUrl && (
-          <a href={inv.payUrl} target="_blank" rel="noreferrer" className="pill pill-primary mt-6">
-            Review and Pay on PayPal
-          </a>
+    <div className="flex flex-col gap-6" aria-live="polite">
+      <section className="card p-6">
+        <div className={`rounded-2xl p-5 ${tone.soft}`}>
+          <div className="flex items-center gap-3">
+            <span className={`grid size-10 place-items-center rounded-full text-white ${tone.strong}`}>
+              <Icon name={v.tone === "green" ? "check" : v.tone === "pink" ? "ban" : v.tone === "orange" ? "clock" : "minus"} />
+            </span>
+            <div className="min-w-0">
+              <h2 className="text-[22px] font-semibold leading-tight">{v.label}</h2>
+              <p className="truncate text-[12px] text-muted" translate="no">
+                {review.id}
+              </p>
+            </div>
+          </div>
+          {inv && (
+            <p className="mt-4 text-[15px]">
+              <span className="text-[24px] font-semibold tabular-nums">{money(inv.amount, inv.currency)}</span>
+              <span className="text-muted"> to </span>
+              <span className="font-medium">{inv.senderName ?? inv.senderEmail ?? "an unnamed sender"}</span>
+              {inv.dueDate && <span className="text-muted">, due {inv.dueDate}</span>}
+            </p>
+          )}
+          {review.explanation && <p className="mt-3 text-[14px] leading-[1.6]">{review.explanation}</p>}
+          {review.verdict === "pay" && !review.outcome && <p className="mt-3 text-[14px] leading-[1.6]">Every check passed.</p>}
+          {review.outcome && <p className={`mt-3 text-[14px] font-medium leading-[1.6] ${tone.ink}`}>{outcomeText(review.outcome)}</p>}
+          <Actions review={review} onAct={onAct} acting={acting} />
+        </div>
+
+        {inv?.note && (
+          <div className="mt-5">
+            <h3 className="text-[13px] text-muted">What the sender wrote</h3>
+            <p className="mt-1 whitespace-pre-wrap text-[14px] leading-[1.6]">{inv.note}</p>
+          </div>
         )}
       </section>
 
-      {inv?.note && (
-        <section className="rounded-(--radius-block) bg-surface-soft p-6">
-          <h3 className="eyebrow">What the sender wrote</h3>
-          <p className="mt-3 whitespace-pre-wrap leading-[1.45]">{inv.note}</p>
-        </section>
-      )}
+      <section className="card p-6">
+        <h2 className="mb-5 text-[20px] font-semibold">The three checks</h2>
+        <Check title="Is it real?" by="PayPal" {...realCheck(review)} />
+        <Check title="Is it expected?" by="Your payments" {...expectedCheck(review)} />
+        <Check title="Does it read like a scam?" by={review.wording ? `Jev, ${review.wording.ms} ms` : "Jev"} {...wordingCheck(review)}>
+          {flags.length > 0 && (
+            <ul className="mt-4 flex flex-col gap-3">
+              {flags.map(([code, p]) => (
+                <li key={code} className="grid grid-cols-[1fr_4.5rem_2.75rem] items-center gap-3 text-[13px] leading-[1.4]">
+                  <span className={p >= FLAG_FIRED ? "font-medium" : "text-muted"}>{FLAG_TEXT[code] ?? code}</span>
+                  <span className="h-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+                    <span className={`block h-full rounded-full ${p >= FLAG_FIRED ? "bg-pink" : "bg-primary"}`} style={{ width: `${Math.max(Math.round(p * 100), 2)}%` }} />
+                  </span>
+                  <span className="text-right tabular-nums text-muted">{Math.round(p * 100)}%</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Check>
+      </section>
+    </div>
+  );
+}
 
-      <Check title="Is it real?" by="PayPal" {...realCheck(review)} />
-      <Check title="Is it expected?" by="Your payments" {...expectedCheck(review)} />
-      <Check title="Does it read like a scam?" by={review.wording ? `Jev, ${review.wording.ms} ms` : "Jev"} {...wordingCheck(review)}>
-        {flags.length > 0 && (
-          <ul className="mt-5 flex flex-col gap-2.5 border-t border-hairline-soft pt-5">
-            {flags.map(([code, p]) => (
-              <li key={code} className="grid grid-cols-[1fr_4.5rem_2.75rem] items-center gap-3 text-[15px] leading-[1.35]">
-                <span className={p >= FLAG_FIRED ? "font-[540]" : undefined}>{FLAG_TEXT[code] ?? code}</span>
-                <span className="h-1.5 overflow-hidden rounded-full bg-hairline" aria-hidden="true">
-                  <span className="block h-full rounded-full bg-ink" style={{ width: `${Math.round(p * 100)}%` }} />
-                </span>
-                <span className="text-right tabular-nums">{Math.round(p * 100)}%</span>
-              </li>
-            ))}
-          </ul>
+function Actions({ review, onAct, acting }: { review: Review; onAct: (action: ReviewAction) => void; acting: ReviewAction | null }) {
+  const state = review.outcome?.state;
+  const known = Boolean(review.invoice?.senderEmail) && (review.expected?.timesPaid ?? 0) > 0;
+  const busy = acting !== null;
+
+  if (state === "awaiting_payment") {
+    return (
+      <div className="mt-5 flex flex-wrap gap-3">
+        {review.invoice?.payUrl && (
+          <a href={review.invoice.payUrl} target="_blank" rel="noreferrer" className="btn btn-primary">
+            Pay on PayPal
+          </a>
         )}
-      </Check>
+        <button type="button" onClick={() => onAct("confirm")} disabled={busy} className="btn btn-outline">
+          {acting === "confirm" ? "Checking…" : "I Paid It, Check Again"}
+        </button>
+      </div>
+    );
+  }
+  if (review.verdict !== "ask" || state === "paid" || state === "rejected") return null;
+  return (
+    <div className="mt-5 flex flex-wrap gap-3">
+      <button type="button" onClick={() => onAct("approve")} disabled={busy} className="btn btn-primary">
+        {acting === "approve" ? "Paying…" : known ? "Approve and Pay" : "Approve"}
+      </button>
+      <button type="button" onClick={() => onAct("reject")} disabled={busy} className="btn btn-outline">
+        {acting === "reject" ? "Rejecting…" : "Reject"}
+      </button>
     </div>
   );
 }

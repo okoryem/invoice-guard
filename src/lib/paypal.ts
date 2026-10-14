@@ -4,6 +4,13 @@ const BASE = process.env.PAYPAL_API_BASE ?? "https://api-m.sandbox.paypal.com";
 
 let cached: { token: string; expiresAt: number } | null = null;
 
+async function call(path: string, init: RequestInit = {}): Promise<Response> {
+  const headers = new Headers(init.headers);
+  headers.set("Authorization", `Bearer ${await accessToken()}`);
+  if (init.body) headers.set("Content-Type", "application/json");
+  return fetch(`${BASE}${path}`, { ...init, headers });
+}
+
 async function accessToken(): Promise<string> {
   if (cached && cached.expiresAt > Date.now() + 60_000) return cached.token;
   const id = process.env.PAYPAL_CLIENT_ID;
@@ -36,9 +43,7 @@ export function parseInvoiceId(input: string): string | null {
 export async function fetchInvoice(id: string): Promise<{ real: RealCheck; invoice: InvoiceFacts | null }> {
   let res: Response;
   try {
-    res = await fetch(`${BASE}/v2/invoicing/invoices/${id}`, {
-      headers: { Authorization: `Bearer ${await accessToken()}` },
-    });
+    res = await call(`/v2/invoicing/invoices/${id}`);
   } catch (err) {
     return { real: { state: "error", detail: String(err) }, invoice: null };
   }
@@ -67,4 +72,95 @@ export async function fetchInvoice(id: string): Promise<{ real: RealCheck; invoi
       payUrl: data.detail?.metadata?.recipient_view_url ?? null,
     },
   };
+}
+
+export type PayoutResult =
+  | { ok: true; reference: string; status: string }
+  | { ok: false; detail: string };
+
+/**
+ * Pays a vendor's verified email. PayPal has no API for a payer to pay an invoice, so this
+ * moves the money but leaves the invoice open on PayPal. The batch ID is derived from the
+ * invoice ID, so PayPal itself refuses a second payout for the same invoice.
+ */
+export async function sendPayout(invoiceId: string, email: string, amount: number, currency: string): Promise<PayoutResult> {
+  const res = await call("/v1/payments/payouts", {
+    method: "POST",
+    body: JSON.stringify({
+      sender_batch_header: { sender_batch_id: `invoice-${invoiceId}`, email_subject: `Payment for invoice ${invoiceId}` },
+      items: [
+        {
+          recipient_type: "EMAIL",
+          receiver: email,
+          amount: { value: amount.toFixed(2), currency },
+          note: `Payment for invoice ${invoiceId}`,
+          sender_item_id: invoiceId,
+        },
+      ],
+    }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) return { ok: false, detail: data.message ?? `PayPal refused the payout (HTTP ${res.status})` };
+  const reference: string = data.batch_header.payout_batch_id;
+
+  // A sandbox payout settles within seconds. Wait briefly so the owner sees the result.
+  let status: string = data.batch_header.batch_status;
+  for (let i = 0; i < 6 && !["SUCCESS", "DENIED", "CANCELED"].includes(status); i++) {
+    await new Promise((r) => setTimeout(r, 1500));
+    const poll = await call(`/v1/payments/payouts/${reference}`);
+    if (poll.ok) status = (await poll.json()).batch_header.batch_status;
+  }
+  if (status === "DENIED" || status === "CANCELED") return { ok: false, detail: `PayPal ${status.toLowerCase()} the payout` };
+  return { ok: true, reference, status };
+}
+
+export interface HistoryPayment {
+  reference: string;
+  email: string;
+  amount: number;
+  currency: string;
+  at: string;
+  invoiceId: string | null;
+}
+
+/**
+ * Money this account sent, from PayPal's transaction history. The history lags by hours and
+ * is searched 31 days at a time, so it is only used to learn about payments made before
+ * the app was connected.
+ */
+export async function outgoingPayments(days: number): Promise<HistoryPayment[]> {
+  const found: HistoryPayment[] = [];
+  const end = Date.now();
+  for (let to = end; to > end - days * 86_400_000; to -= 31 * 86_400_000) {
+    const from = Math.max(to - 31 * 86_400_000, end - days * 86_400_000);
+    for (let page = 1; ; page++) {
+      const query = new URLSearchParams({
+        start_date: new Date(from).toISOString().slice(0, 19) + "Z",
+        end_date: new Date(to).toISOString().slice(0, 19) + "Z",
+        fields: "transaction_info,payer_info",
+        page_size: "500",
+        page: String(page),
+      });
+      const res = await call(`/v1/reporting/transactions?${query}`);
+      if (!res.ok) throw new Error(`PayPal history request failed with HTTP ${res.status}`);
+      const data = await res.json();
+      for (const t of data.transaction_details ?? []) {
+        const info = t.transaction_info ?? {};
+        const value = Number(info.transaction_amount?.value ?? 0);
+        const email = t.payer_info?.email_address;
+        // Outgoing money with a named counterparty. Fees and balance moves carry no email.
+        if (value >= 0 || !email) continue;
+        found.push({
+          reference: info.transaction_id,
+          email: email.toLowerCase(),
+          amount: -value,
+          currency: info.transaction_amount.currency_code,
+          at: info.transaction_initiation_date,
+          invoiceId: parseInvoiceId(`${info.transaction_note ?? ""} ${info.transaction_subject ?? ""} ${info.invoice_id ?? ""}`),
+        });
+      }
+      if (page >= (data.total_pages ?? 1)) break;
+    }
+  }
+  return found;
 }

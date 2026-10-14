@@ -60,6 +60,11 @@ describe("decide", () => {
     expect(decide({ ...clean, real: { state: "error", detail: "timeout" } }).verdict).toBe("ask");
   });
 
+  it("never pays an invoice the agent has already paid, even if PayPal still shows it unpaid", () => {
+    const result = decide({ ...clean, alreadyPaid: { amount: 120, currency: "USD", at: "2026-10-14T00:59:12Z", source: "agent" } });
+    expect(result).toEqual({ verdict: "closed", reasons: [{ code: "already_paid", text: "Already paid on 2026-10-14" }] });
+  });
+
   it("does nothing with an invoice that is already paid", () => {
     expect(decide({ ...clean, status: "PAID" }).verdict).toBe("closed");
   });

@@ -37,6 +37,20 @@ export interface InvoiceFacts {
   payUrl: string | null;
 }
 
+/** What happened after the verdict. The verdict is the agent's judgment; this is the action. */
+export type Outcome =
+  | { state: "paid"; by: "agent" | "owner"; method: "payout" | "paypal_invoice"; amount: number; currency: string; at: string; reference: string }
+  | { state: "awaiting_payment"; at: string }
+  | { state: "rejected"; at: string }
+  | { state: "failed"; at: string; detail: string };
+
+export interface PriorPayment {
+  amount: number;
+  currency: string;
+  at: string;
+  source: "agent" | "paypal_history";
+}
+
 export interface Review {
   id: string;
   input: string;
@@ -47,5 +61,6 @@ export interface Review {
   expected: ExpectedCheck | null;
   wording: WordingCheck | null;
   invoice: InvoiceFacts | null;
+  outcome: Outcome | null;
   reviewedAt: string;
 }
