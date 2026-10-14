@@ -1,43 +1,108 @@
 @import "tailwindcss";
 
+/* Tokens follow DESIGN.md: a black-and-white frame, with one pastel block per view for the verdict. */
 :root {
-  --paper: #f7f5f0;
-  --card: #ffffff;
-  --ink: #1c1b18;
-  --muted: #6b675e;
-  --line: #e4e0d6;
-  --accent: #1f4fd8;
-  --pay: #1f7a4d;
-  --pay-soft: #e3f3ea;
-  --ask: #a15c07;
-  --ask-soft: #fbf0d9;
-  --block: #b3261e;
-  --block-soft: #fbe6e3;
-  --closed: #6b675e;
-  --closed-soft: #eeebe4;
+  --canvas: #ffffff;
+  --ink: #000000;
+  --hairline: #e6e6e6;
+  --hairline-soft: #f1f1f1;
+  --surface-soft: #f7f7f5;
+  --block-lime: #dceeb1;
+  --block-lilac: #c5b0f4;
+  --block-cream: #f4ecd6;
+  --block-pink: #efd4d4;
+  --block-mint: #c8e6cd;
+  --block-coral: #f3c9b6;
+  --success: #1ea64a;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-card: var(--card);
+  --color-canvas: var(--canvas);
   --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-pay: var(--pay);
-  --color-pay-soft: var(--pay-soft);
-  --color-ask: var(--ask);
-  --color-ask-soft: var(--ask-soft);
-  --color-block: var(--block);
-  --color-block-soft: var(--block-soft);
-  --color-closed: var(--closed);
-  --color-closed-soft: var(--closed-soft);
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+  --color-surface-soft: var(--surface-soft);
+  --color-block-lime: var(--block-lime);
+  --color-block-lilac: var(--block-lilac);
+  --color-block-cream: var(--block-cream);
+  --color-block-pink: var(--block-pink);
+  --color-block-mint: var(--block-mint);
+  --color-block-coral: var(--block-coral);
+  --color-success: var(--success);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --radius-block: 24px;
+}
+
+html {
+  color-scheme: light;
+  /* Keeps focused and linked content clear of the sticky header. */
+  scroll-padding-top: 72px;
 }
 
 body {
-  background: var(--paper);
+  background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 330;
+  font-feature-settings: "kern";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mono is taxonomy only: uppercase labels and captions. */
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 480;
+  letter-spacing: -0.1px;
+  transition: transform 120ms ease, opacity 120ms ease;
+  touch-action: manipulation;
+}
+.pill-primary:hover:not(:disabled) {
+  opacity: 0.8;
+}
+.pill:active {
+  transform: scale(0.98);
+}
+.pill-primary {
+  background: var(--ink);
+  color: var(--canvas);
+}
+.pill-primary:disabled {
+  opacity: 0.4;
+  cursor: progress;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 20;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
 }

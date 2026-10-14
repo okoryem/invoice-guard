@@ -58,3 +58,9 @@ __pycache__/
 /Plan/
 /Resources/
 /*.canvas
+
+# coding-assistant tooling and third-party design references, local only
+/.claude/
+/.agents/
+/skills-lock.json
+/DESIGN.md
