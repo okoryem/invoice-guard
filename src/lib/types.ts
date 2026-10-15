@@ -62,5 +62,13 @@ export interface Review {
   wording: WordingCheck | null;
   invoice: InvoiceFacts | null;
   outcome: Outcome | null;
+  /** How the invoice reached the app. Missing on reviews stored before email intake existed. */
+  via?: Via;
   reviewedAt: string;
+}
+
+export interface Via {
+  channel: "paste" | "email";
+  from?: string;
+  subject?: string;
 }

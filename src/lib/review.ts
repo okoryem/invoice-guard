@@ -1,13 +1,15 @@
 import { autoPayLimit, getReview, paymentForInvoice, recordPayment, saveReview, vendorHistory } from "./db";
-import { decide } from "./decide";
+import { decide, decideEmailWithoutInvoice } from "./decide";
+import { readEmail, type EmailInput } from "./email";
 import { explain } from "./explain";
 import { syncHistory } from "./history";
 import { scoreWording } from "./jev";
 import { fetchInvoice, parseInvoiceId, sendPayout } from "./paypal";
-import type { ExpectedCheck, InvoiceFacts, Outcome, Review, WordingCheck } from "./types";
+import { createHash } from "node:crypto";
+import type { ExpectedCheck, InvoiceFacts, Outcome, Review, Via, WordingCheck } from "./types";
 
 /** Runs the three checks on one invoice link or ID, decides, pays if safe, and stores the result. */
-export async function reviewInvoice(input: string): Promise<Review | { error: string }> {
+export async function reviewInvoice(input: string, via: Via = { channel: "paste" }): Promise<Review | { error: string }> {
   const id = parseInvoiceId(input);
   if (!id) return { error: "That does not look like a PayPal invoice link or ID. Paste the link from the invoice email, or an ID like INV2-XXXX-XXXX-XXXX-XXXX." };
 
@@ -54,10 +56,50 @@ export async function reviewInvoice(input: string): Promise<Review | { error: st
     wording,
     invoice,
     outcome,
+    // An email names who sent it on, so it wins over an earlier paste.
+    via: via.channel === "email" ? via : (previous?.via ?? via),
     reviewedAt: new Date().toISOString(),
   };
   await saveReview(review);
   return review;
+}
+
+/**
+ * Checks every PayPal invoice an email points to. An email that looks like PayPal but points to
+ * no real invoice is blocked on its own, which catches phishing that never touches PayPal.
+ */
+export async function reviewEmail(email: EmailInput, channel: Via["channel"] = "email"): Promise<Review[] | { error: string }> {
+  const found = readEmail(email);
+  const via: Via = { channel, from: email.from?.slice(0, 200), subject: email.subject?.slice(0, 200) };
+
+  if (found.invoiceIds.length) {
+    const reviews: Review[] = [];
+    for (const id of found.invoiceIds.slice(0, 10)) {
+      const result = await reviewInvoice(id, via);
+      if (!("error" in result)) reviews.push(result);
+    }
+    return reviews;
+  }
+
+  const decision = decideEmailWithoutInvoice(found);
+  if (!decision) return { error: "No PayPal invoice was found in that email, and it does not claim to be from PayPal." };
+  const fingerprint = createHash("sha256").update(`${email.subject}\n${email.text}\n${email.html}`).digest("hex").slice(0, 12).toUpperCase();
+  const review: Review = {
+    id: `MAIL-${fingerprint}`,
+    input: email.subject ?? "Email",
+    verdict: decision.verdict,
+    reasons: decision.reasons,
+    explanation: await explain(decision.verdict, decision.reasons, null),
+    real: { state: "not_found" },
+    expected: null,
+    wording: null,
+    invoice: null,
+    outcome: null,
+    via,
+    reviewedAt: new Date().toISOString(),
+  };
+  await saveReview(review);
+  return [review];
 }
 
 async function pay(invoice: InvoiceFacts, by: "agent" | "owner"): Promise<Outcome> {

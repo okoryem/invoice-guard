@@ -62,6 +62,19 @@ export default function Home() {
     input.current?.focus();
   }
 
+  // Invoices forwarded by email arrive on the server, so check for them while the page is open.
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState !== "visible") return;
+      fetch("/api/invoices")
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => data && setReviews(data.reviews ?? []))
+        .catch(() => {});
+    };
+    const timer = setInterval(refresh, 15_000);
+    return () => clearInterval(timer);
+  }, []);
+
   useEffect(() => {
     fetch("/api/invoices")
       .then((r) => r.json())
@@ -86,7 +99,8 @@ export default function Home() {
       if (!res.ok) {
         return fail(data.error ?? "The invoice could not be checked. Try again.");
       }
-      setReviews((all) => [data.review, ...all.filter((r) => r.id !== data.review.id)]);
+      const added: Review[] = data.reviews ?? [data.review];
+      setReviews((all) => [...added, ...all.filter((r) => !added.some((a) => a.id === r.id))]);
       select(data.review.id);
       setLink("");
     } catch {
@@ -146,7 +160,7 @@ export default function Home() {
                   inputMode="url"
                   value={link}
                   onChange={(e) => setLink(e.target.value)}
-                  placeholder="Paste a PayPal invoice link or ID…"
+                  placeholder="Paste a PayPal invoice link, ID, or a whole email…"
                   aria-describedby="link-error"
                   aria-invalid={error ? true : undefined}
                   className="min-h-12 min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-muted"

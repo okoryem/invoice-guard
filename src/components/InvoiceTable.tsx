@@ -66,7 +66,8 @@ export function InvoiceTable({ reviews, onSelect }: { reviews: Review[]; onSelec
         headerName: "From",
         flex: 1,
         minWidth: 150,
-        valueGetter: ({ data }) => data?.invoice?.senderName ?? data?.invoice?.senderEmail ?? "Unknown sender",
+        valueGetter: ({ data }) =>
+          data?.invoice?.senderName ?? data?.invoice?.senderEmail ?? data?.via?.subject ?? (data?.id.startsWith("MAIL-") ? "Pasted email" : "Unknown sender"),
         tooltipValueGetter: ({ value }) => value,
       },
       {

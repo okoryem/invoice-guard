@@ -87,3 +87,18 @@ export function decide(input: DecisionInput): { verdict: Verdict; reasons: Reaso
 
   return reasons.length ? { verdict: "ask", reasons } : { verdict: "pay", reasons: [] };
 }
+
+/**
+ * An email that points to no PayPal invoice at all. If it asks for money it imitates PayPal,
+ * and nothing in it can be paid. Returns null for an email that has nothing to do with PayPal.
+ */
+export function decideEmailWithoutInvoice(found: { lookalikeHosts: string[]; mentionsPayPal: boolean }): { verdict: Verdict; reasons: Reason[] } | null {
+  if (!found.lookalikeHosts.length && !found.mentionsPayPal) return null;
+  return {
+    verdict: "block",
+    reasons: [
+      { code: "no_invoice_in_email", text: "The email has no real PayPal invoice in it, so there is nothing PayPal can confirm" },
+      ...found.lookalikeHosts.map((host) => ({ code: "lookalike_link", text: `It links to ${host}, which imitates PayPal` })),
+    ],
+  };
+}

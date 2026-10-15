@@ -1,5 +1,8 @@
 import { Icon } from "./icons";
 
+// Set at build time to the inbound email address, once an email service is connected.
+const INBOUND = process.env.NEXT_PUBLIC_INBOUND_ADDRESS;
+
 export function Sidebar() {
   return (
     <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col bg-card px-6 py-8 lg:flex">
@@ -18,6 +21,15 @@ export function Sidebar() {
           Dashboard
         </a>
       </nav>
+
+      {INBOUND && (
+        <div className="mt-8 rounded-2xl bg-page p-4">
+          <p className="text-[13px] font-medium">Forward invoice emails to</p>
+          <p className="mt-1 break-all text-[13px] text-primary" translate="no">
+            {INBOUND}
+          </p>
+        </div>
+      )}
 
       <div className="mt-auto rounded-[20px] bg-primary p-6 text-center text-white">
         <span className="mx-auto grid size-12 place-items-center rounded-xl bg-white text-primary">

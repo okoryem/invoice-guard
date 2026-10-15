@@ -123,6 +123,13 @@ export function ReviewDetail({ review, onAct, acting }: { review: Review; onAct:
           <Actions review={review} onAct={onAct} acting={acting} />
         </div>
 
+        {review.via?.channel === "email" && (
+          <p className="mt-5 text-[13px] text-muted">
+            Arrived by email{review.via.from && <> from <span className="font-medium text-ink">{review.via.from}</span></>}
+            {review.via.subject && <>: “{review.via.subject}”</>}
+          </p>
+        )}
+
         {inv?.note && (
           <div className="mt-5">
             <h3 className="text-[13px] text-muted">What the sender wrote</h3>

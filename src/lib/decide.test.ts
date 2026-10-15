@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decide, type DecisionInput } from "./decide";
+import { decide, decideEmailWithoutInvoice, type DecisionInput } from "./decide";
 
 const clean: DecisionInput = {
   real: { state: "found" },
@@ -67,5 +67,17 @@ describe("decide", () => {
 
   it("does nothing with an invoice that is already paid", () => {
     expect(decide({ ...clean, status: "PAID" }).verdict).toBe("closed");
+  });
+});
+
+describe("decideEmailWithoutInvoice", () => {
+  it("blocks a PayPal-looking email with no real invoice, naming the look-alike link", () => {
+    const result = decideEmailWithoutInvoice({ lookalikeHosts: ["secure-paypa1-billing.com"], mentionsPayPal: true });
+    expect(result?.verdict).toBe("block");
+    expect(result?.reasons.map((r) => r.code)).toEqual(["no_invoice_in_email", "lookalike_link"]);
+  });
+
+  it("ignores an email that has nothing to do with PayPal", () => {
+    expect(decideEmailWithoutInvoice({ lookalikeHosts: [], mentionsPayPal: false })).toBeNull();
   });
 });
