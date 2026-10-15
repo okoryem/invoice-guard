@@ -25,7 +25,7 @@ The agent never pays a sender for the first time without asking.
 ## How invoices arrive
 
 - **Paste** a PayPal invoice link, its ID, or a whole email into the box at the top.
-- **Forward** the invoice email to the app's inbound address. An inbound email service (Postmark) posts each email to `/api/inbound`.
+- **Forward** the invoice email to the app's inbound address. An inbound email service (CloudMailin, or Postmark) posts each email to `/api/inbound`.
 
 The email is only a pointer. The app reads the invoice from PayPal by its ID, so a convincing email cannot change what is checked. An email that looks like PayPal but points to no real PayPal invoice is blocked on its own, and links that imitate PayPal (such as `paypa1-secure.com`) are named.
 
