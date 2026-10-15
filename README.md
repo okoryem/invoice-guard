@@ -93,7 +93,7 @@ Things to try:
 | Transaction Search | Loading past payments, so vendors paid before the app was connected count as known |
 | PayPal's invoice page | Paying first-time vendors, so the invoice closes properly on PayPal |
 
-Two things we learned in the sandbox shaped the design:
+Two things found in the sandbox shaped the design:
 
 - **An account cannot list the invoices it has received**, only the ones it sent. So invoices reach the app by email or paste, and PayPal is then asked for each one by its ID.
 - **There is no API for a payer to pay an invoice.** A payout moves the money but leaves the invoice open on PayPal until the vendor marks it paid. First-time vendors are therefore paid on PayPal's own page.
@@ -186,6 +186,7 @@ npm test
 
 ## Credits
 
+- Built by Oryem Kilama, with Claude Code as a coding assistant.
 - Interface based on the [Sales Dashboard Design](https://www.figma.com/community/file/1153320445661469840/sales-dashboard-design) Figma community file by Design with Will.
 - Business names in the demo are made up.
 
