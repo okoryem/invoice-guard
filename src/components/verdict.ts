@@ -25,6 +25,8 @@ export function standing(review: Review): { label: string; tone: Tone } {
       return { label: "Paid", tone: "green" };
     case "rejected":
       return { label: "Rejected", tone: "slate" };
+    case "overridden":
+      return { label: "Unblocked, needs you", tone: "orange" };
     case "awaiting_payment":
       return { label: "Approved, unpaid", tone: "orange" };
     case "failed":

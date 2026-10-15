@@ -22,6 +22,11 @@ Paste a PayPal invoice link. The app runs three checks and decides.
 
 The agent never pays a sender for the first time without asking.
 
+The owner stays in control:
+
+- **Settings** sets the most the agent may pay a known vendor on its own (default $1,000; 0 means every payment is approved by hand).
+- **Not a scam? Unblock** moves a blocked invoice back to the owner if the agent was wrong. It is offered only when PayPal confirms the invoice is real and addressed to this account, and the invoice still needs approval before anything is paid.
+
 ## How invoices arrive
 
 - **Paste** a PayPal invoice link, its ID, or a whole email into the box at the top.

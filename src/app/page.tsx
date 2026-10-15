@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Icon, type IconName } from "@/components/icons";
 import { InvoiceTable } from "@/components/InvoiceTable";
 import { ReviewDetail, type ReviewAction } from "@/components/ReviewDetail";
+import { Settings } from "@/components/Settings";
 import { Sidebar } from "@/components/Sidebar";
 import { money, TONE, type Tone } from "@/components/verdict";
 import type { Review } from "@/lib/types";
@@ -14,8 +15,12 @@ type View = "all" | "paid" | "needs" | "blocked";
 const VIEWS: { id: View; label: string; match: (r: Review) => boolean }[] = [
   { id: "all", label: "All", match: () => true },
   { id: "paid", label: "Paid", match: (r) => r.outcome?.state === "paid" },
-  { id: "needs", label: "Needs you", match: (r) => r.verdict === "ask" && r.outcome?.state !== "paid" && r.outcome?.state !== "rejected" },
-  { id: "blocked", label: "Blocked", match: (r) => r.verdict === "block" },
+  {
+    id: "needs",
+    label: "Needs you",
+    match: (r) => (r.verdict === "ask" || r.outcome?.state === "overridden") && r.outcome?.state !== "paid" && r.outcome?.state !== "rejected",
+  },
+  { id: "blocked", label: "Blocked", match: (r) => r.verdict === "block" && !r.outcome },
 ];
 
 function total(reviews: Review[]) {
@@ -233,6 +238,7 @@ export default function Home() {
               </section>
             )}
           </div>
+          <Settings />
         </main>
       </div>
     </div>

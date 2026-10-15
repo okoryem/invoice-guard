@@ -81,12 +81,14 @@ function outcomeText(o: Outcome): string {
       return "Approved. Pay it on PayPal's own invoice page, then check again so the vendor is remembered.";
     case "rejected":
       return `Rejected on ${when}. Nothing was paid.`;
+    case "overridden":
+      return `You marked this as not a scam on ${when}. It still needs your approval before anything is paid.`;
     case "failed":
       return `The payment did not go through: ${o.detail}.`;
   }
 }
 
-export type ReviewAction = "approve" | "reject" | "confirm";
+export type ReviewAction = "approve" | "reject" | "confirm" | "override";
 
 export function ReviewDetail({ review, onAct, acting }: { review: Review; onAct: (action: ReviewAction) => void; acting: ReviewAction | null }) {
   const v = standing(review);
@@ -181,7 +183,18 @@ function Actions({ review, onAct, acting }: { review: Review; onAct: (action: Re
       </div>
     );
   }
-  if (review.verdict !== "ask" || state === "paid" || state === "rejected") return null;
+  // A blocked invoice that PayPal confirmed is real can be unblocked if the agent got it wrong.
+  if (review.verdict === "block" && !state && review.real.state === "found" && review.invoice) {
+    return (
+      <div className="mt-5">
+        <button type="button" onClick={() => onAct("override")} disabled={busy} className="btn btn-outline">
+          {acting === "override" ? "Unblocking…" : "Not a Scam? Unblock"}
+        </button>
+      </div>
+    );
+  }
+  const waiting = review.verdict === "ask" || state === "overridden";
+  if (!waiting || state === "paid" || state === "rejected") return null;
   return (
     <div className="mt-5 flex flex-wrap gap-3">
       <button type="button" onClick={() => onAct("approve")} disabled={busy} className="btn btn-primary">

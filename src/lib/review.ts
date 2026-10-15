@@ -121,7 +121,7 @@ async function pay(invoice: InvoiceFacts, by: "agent" | "owner"): Promise<Outcom
   return { state: "paid", by: result.earlier ? "agent" : by, method: "payout", amount, currency: invoice.currency, at: result.at, reference: result.reference };
 }
 
-export type Action = "approve" | "reject" | "confirm";
+export type Action = "approve" | "reject" | "confirm" | "override";
 
 /**
  * The owner's decision on an invoice the agent stopped on.
@@ -129,6 +129,8 @@ export type Action = "approve" | "reject" | "confirm";
  *   verified email, is paid by the owner on PayPal's own invoice page, so the invoice closes properly.
  * confirm: after paying on PayPal, re-read the invoice and record the payment if PayPal shows it paid.
  * reject: nothing is paid.
+ * override: the owner says a blocked invoice is not a scam. Only for invoices PayPal confirmed are
+ *   real and addressed to this account; an invoice PayPal has no record of can never be paid.
  */
 export async function act(id: string, action: Action): Promise<Review | { error: string }> {
   const review = await getReview(id);
@@ -138,9 +140,14 @@ export async function act(id: string, action: Action): Promise<Review | { error:
 
   if (action === "reject") {
     review.outcome = { state: "rejected", at: now };
+  } else if (action === "override") {
+    if (review.verdict !== "block") return { error: "Only blocked invoices can be unblocked." };
+    if (review.real.state !== "found" || !review.invoice) return { error: "PayPal has no real invoice for this, so it cannot be unblocked." };
+    review.outcome = { state: "overridden", at: now };
   } else if (action === "approve") {
-    if (review.verdict === "block") return { error: "Blocked invoices cannot be approved." };
-    if (review.verdict !== "ask" || !review.invoice) return { error: "There is nothing to approve on this invoice." };
+    const unblocked = review.verdict === "block" && review.outcome?.state === "overridden";
+    if (review.verdict === "block" && !unblocked) return { error: "Blocked invoices cannot be approved. Unblock it first if you are sure it is not a scam." };
+    if ((review.verdict !== "ask" && !unblocked) || !review.invoice) return { error: "There is nothing to approve on this invoice." };
     const known = review.invoice.senderEmail && (review.expected?.timesPaid ?? 0) > 0;
     review.outcome = known ? await pay(review.invoice, "owner") : { state: "awaiting_payment", at: now };
   } else {

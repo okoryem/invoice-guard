@@ -132,6 +132,8 @@ export async function setSetting(key: string, value: string): Promise<void> {
   );
 }
 
+export const MAX_AUTO_PAY_LIMIT = 100_000;
+
 export async function autoPayLimit(): Promise<number> {
   return Number((await getSetting("auto_pay_limit")) ?? 1000);
 }

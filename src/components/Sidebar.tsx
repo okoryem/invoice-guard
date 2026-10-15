@@ -20,6 +20,10 @@ export function Sidebar() {
           <Icon name="grid" />
           Dashboard
         </a>
+        <a href="#settings" className="mt-2 flex items-center gap-4 rounded-2xl px-6 py-4 text-muted transition-colors hover:bg-page hover:text-ink">
+          <Icon name="sliders" />
+          Settings
+        </a>
       </nav>
 
       {INBOUND && (

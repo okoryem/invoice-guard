@@ -42,6 +42,8 @@ export type Outcome =
   | { state: "paid"; by: "agent" | "owner"; method: "payout" | "paypal_invoice"; amount: number; currency: string; at: string; reference: string }
   | { state: "awaiting_payment"; at: string }
   | { state: "rejected"; at: string }
+  /** The owner said a blocked invoice is not a scam. It then waits for approval like any other. */
+  | { state: "overridden"; at: string }
   | { state: "failed"; at: string; detail: string };
 
 export interface PriorPayment {
