@@ -1,0 +1,57 @@
+[
+ {
+  "model": "jev",
+  "answered": "53/53",
+  "correct": "49/53",
+  "missed_scams": 3,
+  "false_alarms": 1,
+  "unsure": 14,
+  "median_ms": 221,
+  "p90_ms": 284,
+  "cost_per_1000": 0.024
+ },
+ {
+  "model": "anthropic/claude-haiku-5.5",
+  "answered": "53/53",
+  "correct": "50/53",
+  "missed_scams": 2,
+  "false_alarms": 1,
+  "unsure": 6,
+  "median_ms": 1882,
+  "p90_ms": 2463,
+  "cost_per_1000": 0.184
+ },
+ {
+  "model": "anthropic/claude-sonnet-5.5",
+  "answered": "53/53",
+  "correct": "51/53",
+  "missed_scams": 1,
+  "false_alarms": 1,
+  "unsure": 5,
+  "median_ms": 1372,
+  "p90_ms": 1977,
+  "cost_per_1000": 1.924
+ },
+ {
+  "model": "openai/gpt-6-luna",
+  "answered": "53/53",
+  "correct": "52/53",
+  "missed_scams": 0,
+  "false_alarms": 1,
+  "unsure": 5,
+  "median_ms": 3590,
+  "p90_ms": 19205,
+  "cost_per_1000": 0.122
+ },
+ {
+  "model": "openai/gpt-6.1-sol",
+  "answered": "53/53",
+  "correct": "51/53",
+  "missed_scams": 1,
+  "false_alarms": 1,
+  "unsure": 6,
+  "median_ms": 2552,
+  "p90_ms": 4237,
+  "cost_per_1000": 1.524
+ }
+]

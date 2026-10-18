@@ -1,0 +1,903 @@
+[
+ {
+  "id": "s01",
+  "scam": true,
+  "ms": 3800.3329160856083,
+  "cost": 0.001852,
+  "raw": "{\n  \"is_scam\": 0.999,\n  \"impersonation\": 1.0,\n  \"sender_mismatch\": 0.999,\n  \"phone_callback\": 1.0,\n  \"pressure\": 1.0,\n  \"unordered_charge\": 1.0,\n  \"advance_fee\": 0.0,\n  \"off_platform\": 0.01\n}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 1.0,
+   "sender_mismatch": 0.999,
+   "phone_callback": 1.0,
+   "pressure": 1.0,
+   "unordered_charge": 1.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "s02",
+  "scam": true,
+  "ms": 3471.5981249464676,
+  "cost": 0.00173,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.99,\"sender_mismatch\":0.99,\"phone_callback\":1.0,\"pressure\":0.05,\"unordered_charge\":0.9,\"advance_fee\":0.01,\"off_platform\":0.02}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.99,
+   "sender_mismatch": 0.99,
+   "phone_callback": 1.0,
+   "pressure": 0.05,
+   "unordered_charge": 0.9,
+   "advance_fee": 0.01,
+   "off_platform": 0.02
+  }
+ },
+ {
+  "id": "s03",
+  "scam": true,
+  "ms": 2289.5663749659434,
+  "cost": 0.001296,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.99,\"sender_mismatch\":0.99,\"phone_callback\":0.99,\"pressure\":0.97,\"unordered_charge\":0.99,\"advance_fee\":0.01,\"off_platform\":0.02}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.99,
+   "sender_mismatch": 0.99,
+   "phone_callback": 0.99,
+   "pressure": 0.97,
+   "unordered_charge": 0.99,
+   "advance_fee": 0.01,
+   "off_platform": 0.02
+  }
+ },
+ {
+  "id": "s04",
+  "scam": true,
+  "ms": 4374.565458041616,
+  "cost": 0.001938,
+  "raw": "{\"is_scam\":0.97,\"impersonation\":0.01,\"sender_mismatch\":0.02,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.03,\"advance_fee\":0.06,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.97,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.02,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.03,
+   "advance_fee": 0.06,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "s05",
+  "scam": true,
+  "ms": 2246.1063750088215,
+  "cost": 0.001282,
+  "raw": "{\"is_scam\":0.999,\"impersonation\":0.999,\"sender_mismatch\":0.999,\"phone_callback\":0.001,\"pressure\":1.0,\"unordered_charge\":0.01,\"advance_fee\":0.001,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 0.999,
+   "sender_mismatch": 0.999,
+   "phone_callback": 0.001,
+   "pressure": 1.0,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.001,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "s06",
+  "scam": true,
+  "ms": 4146.951874950901,
+  "cost": 0.002188,
+  "raw": "{\n  \"is_scam\": 0.999,\n  \"impersonation\": 0.08,\n  \"sender_mismatch\": 0.15,\n  \"phone_callback\": 0.001,\n  \"pressure\": 0.98,\n  \"unordered_charge\": 0.03,\n  \"advance_fee\": 0.02,\n  \"off_platform\": 0.99\n}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 0.08,
+   "sender_mismatch": 0.15,
+   "phone_callback": 0.001,
+   "pressure": 0.98,
+   "unordered_charge": 0.03,
+   "advance_fee": 0.02,
+   "off_platform": 0.99
+  }
+ },
+ {
+  "id": "s07",
+  "scam": true,
+  "ms": 2339.7128330543637,
+  "cost": 0.001306,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":1.0,\"sender_mismatch\":0.99,\"phone_callback\":1.0,\"pressure\":0.1,\"unordered_charge\":1.0,\"advance_fee\":0.0,\"off_platform\":0.02}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 1.0,
+   "sender_mismatch": 0.99,
+   "phone_callback": 1.0,
+   "pressure": 0.1,
+   "unordered_charge": 1.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.02
+  }
+ },
+ {
+  "id": "s08",
+  "scam": true,
+  "ms": 2346.099167014472,
+  "cost": 0.001304,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.01,\"sender_mismatch\":0.03,\"phone_callback\":0.0,\"pressure\":0.04,\"unordered_charge\":0.03,\"advance_fee\":0.99,\"off_platform\":0.35}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.03,
+   "phone_callback": 0.0,
+   "pressure": 0.04,
+   "unordered_charge": 0.03,
+   "advance_fee": 0.99,
+   "off_platform": 0.35
+  }
+ },
+ {
+  "id": "s09",
+  "scam": true,
+  "ms": 4440.373999997973,
+  "cost": 0.001834,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":1.0,\"sender_mismatch\":0.99,\"phone_callback\":1.0,\"pressure\":0.8,\"unordered_charge\":0.85,\"advance_fee\":0.01,\"off_platform\":0.02}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 1.0,
+   "sender_mismatch": 0.99,
+   "phone_callback": 1.0,
+   "pressure": 0.8,
+   "unordered_charge": 0.85,
+   "advance_fee": 0.01,
+   "off_platform": 0.02
+  }
+ },
+ {
+  "id": "s10",
+  "scam": true,
+  "ms": 2150.8233749773353,
+  "cost": 0.001294,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.0,\"sender_mismatch\":0.05,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":1.0}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.05,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 1.0
+  }
+ },
+ {
+  "id": "s11",
+  "scam": true,
+  "ms": 2416.2956670625135,
+  "cost": 0.00128,
+  "raw": "{\"is_scam\":0.999,\"impersonation\":0.03,\"sender_mismatch\":0.05,\"phone_callback\":0.001,\"pressure\":0.94,\"unordered_charge\":0.01,\"advance_fee\":0.999,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 0.03,
+   "sender_mismatch": 0.05,
+   "phone_callback": 0.001,
+   "pressure": 0.94,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.999,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "s12",
+  "scam": true,
+  "ms": 2349.37758394517,
+  "cost": 0.001308,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.02,\"sender_mismatch\":0.12,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.02,\"advance_fee\":0.0,\"off_platform\":1.0}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.02,
+   "sender_mismatch": 0.12,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.02,
+   "advance_fee": 0.0,
+   "off_platform": 1.0
+  }
+ },
+ {
+  "id": "l01",
+  "scam": false,
+  "ms": 2145.7862079842016,
+  "cost": 0.001262,
+  "raw": "{\"is_scam\":0.01,\"impersonation\":0.0,\"sender_mismatch\":0.0,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.01,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.0,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l02",
+  "scam": false,
+  "ms": 3451.077334000729,
+  "cost": 0.00128,
+  "raw": "{\"is_scam\":0.02,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.01,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.02,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.01,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l03",
+  "scam": false,
+  "ms": 2215.330416918732,
+  "cost": 0.001282,
+  "raw": "{\"is_scam\":0.02,\"impersonation\":0.0,\"sender_mismatch\":0.0,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.02,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.0,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "l04",
+  "scam": false,
+  "ms": 2076.3075000140816,
+  "cost": 0.001274,
+  "raw": "{\"is_scam\":0.03,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.03,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l05",
+  "scam": false,
+  "ms": 2115.285333013162,
+  "cost": 0.001276,
+  "raw": "{\"is_scam\":0.02,\"impersonation\":0.0,\"sender_mismatch\":0.0,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.02,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.0,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l06",
+  "scam": false,
+  "ms": 2274.0115830674767,
+  "cost": 0.001244,
+  "raw": "{\"is_scam\":0.02,\"impersonation\":0.0,\"sender_mismatch\":0.0,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.02,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.0,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l07",
+  "scam": false,
+  "ms": 2637.1151249622926,
+  "cost": 0.001276,
+  "raw": "{\"is_scam\":0.02,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.02}",
+  "answers": {
+   "is_scam": 0.02,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.02
+  }
+ },
+ {
+  "id": "l08",
+  "scam": false,
+  "ms": 2317.5618749810383,
+  "cost": 0.001274,
+  "raw": "{\"is_scam\":0.02,\"impersonation\":0.0,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.02,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l09",
+  "scam": false,
+  "ms": 2276.1434169951826,
+  "cost": 0.001278,
+  "raw": "{\"is_scam\":0.04,\"impersonation\":0.0,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.68,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.04,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.68,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l10",
+  "scam": false,
+  "ms": 2171.201917110011,
+  "cost": 0.001286,
+  "raw": "{\"is_scam\":0.01,\"impersonation\":0.001,\"sender_mismatch\":0.001,\"phone_callback\":0.001,\"pressure\":0.001,\"unordered_charge\":0.001,\"advance_fee\":0.001,\"off_platform\":0.001}",
+  "answers": {
+   "is_scam": 0.01,
+   "impersonation": 0.001,
+   "sender_mismatch": 0.001,
+   "phone_callback": 0.001,
+   "pressure": 0.001,
+   "unordered_charge": 0.001,
+   "advance_fee": 0.001,
+   "off_platform": 0.001
+  }
+ },
+ {
+  "id": "l11",
+  "scam": false,
+  "ms": 2262.4709580559283,
+  "cost": 0.001286,
+  "raw": "{\"is_scam\":0.03,\"impersonation\":0.0,\"sender_mismatch\":0.0,\"phone_callback\":0.0,\"pressure\":0.0,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.03,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.0,
+   "phone_callback": 0.0,
+   "pressure": 0.0,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "l12",
+  "scam": false,
+  "ms": 2084.6038329182193,
+  "cost": 0.001292,
+  "raw": "{\"is_scam\":0.03,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.01,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.03,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.01,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "m01",
+  "scam": true,
+  "ms": 3222.4681669613346,
+  "cost": 0.001656,
+  "raw": "{\"is_scam\":0.999,\"impersonation\":0.999,\"sender_mismatch\":0.999,\"phone_callback\":1.0,\"pressure\":0.999,\"unordered_charge\":1.0,\"advance_fee\":0.001,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 0.999,
+   "sender_mismatch": 0.999,
+   "phone_callback": 1.0,
+   "pressure": 0.999,
+   "unordered_charge": 1.0,
+   "advance_fee": 0.001,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "m02",
+  "scam": true,
+  "ms": 2227.601708029397,
+  "cost": 0.001334,
+  "raw": "{\"is_scam\":0.999,\"impersonation\":1.0,\"sender_mismatch\":0.999,\"phone_callback\":0.0,\"pressure\":1.0,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 1.0,
+   "sender_mismatch": 0.999,
+   "phone_callback": 0.0,
+   "pressure": 1.0,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "m03",
+  "scam": true,
+  "ms": 2229.5576659962535,
+  "cost": 0.001324,
+  "raw": "{\"is_scam\":0.999,\"impersonation\":0.02,\"sender_mismatch\":0.03,\"phone_callback\":0.0,\"pressure\":0.94,\"unordered_charge\":0.02,\"advance_fee\":1.0,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.999,
+   "impersonation": 0.02,
+   "sender_mismatch": 0.03,
+   "phone_callback": 0.0,
+   "pressure": 0.94,
+   "unordered_charge": 0.02,
+   "advance_fee": 1.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "m04",
+  "scam": true,
+  "ms": 2356.2351249856874,
+  "cost": 0.001348,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.03,\"sender_mismatch\":0.12,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":1.0}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.03,
+   "sender_mismatch": 0.12,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 1.0
+  }
+ },
+ {
+  "id": "m05",
+  "scam": true,
+  "ms": 3670.8840840728953,
+  "cost": 0.001644,
+  "raw": "{\"is_scam\":0.97,\"impersonation\":0.01,\"sender_mismatch\":0.03,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.03,\"advance_fee\":0.12,\"off_platform\":0.02}",
+  "answers": {
+   "is_scam": 0.97,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.03,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.03,
+   "advance_fee": 0.12,
+   "off_platform": 0.02
+  }
+ },
+ {
+  "id": "m06",
+  "scam": true,
+  "ms": 4175.420750048943,
+  "cost": 0.002238,
+  "raw": "{\n  \"is_scam\": 0.99,\n  \"impersonation\": 1.0,\n  \"sender_mismatch\": 0.99,\n  \"phone_callback\": 1.0,\n  \"pressure\": 0.12,\n  \"unordered_charge\": 0.85,\n  \"advance_fee\": 0.01,\n  \"off_platform\": 0.03\n}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 1.0,
+   "sender_mismatch": 0.99,
+   "phone_callback": 1.0,
+   "pressure": 0.12,
+   "unordered_charge": 0.85,
+   "advance_fee": 0.01,
+   "off_platform": 0.03
+  }
+ },
+ {
+  "id": "c01",
+  "scam": true,
+  "ms": 3891.201375052333,
+  "cost": 0.00197,
+  "raw": "{\"is_scam\":0.9,\"impersonation\":0.01,\"sender_mismatch\":0.04,\"phone_callback\":0.0,\"pressure\":0.12,\"unordered_charge\":0.01,\"advance_fee\":0.02,\"off_platform\":0.65}",
+  "answers": {
+   "is_scam": 0.9,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.04,
+   "phone_callback": 0.0,
+   "pressure": 0.12,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.02,
+   "off_platform": 0.65
+  }
+ },
+ {
+  "id": "c02",
+  "scam": true,
+  "ms": 2944.347250042483,
+  "cost": 0.001616,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.001,\"sender_mismatch\":0.01,\"phone_callback\":0.001,\"pressure\":0.99,\"unordered_charge\":0.01,\"advance_fee\":0.03,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.001,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.001,
+   "pressure": 0.99,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.03,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "c03",
+  "scam": true,
+  "ms": 3513.8222080422565,
+  "cost": 0.001718,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.72,\"unordered_charge\":0.02,\"advance_fee\":0.97,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.72,
+   "unordered_charge": 0.02,
+   "advance_fee": 0.97,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "c04",
+  "scam": true,
+  "ms": 2379.821666982025,
+  "cost": 0.001322,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.01,\"sender_mismatch\":0.02,\"phone_callback\":0.0,\"pressure\":0.82,\"unordered_charge\":0.01,\"advance_fee\":0.99,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.02,
+   "phone_callback": 0.0,
+   "pressure": 0.82,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.99,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "c05",
+  "scam": true,
+  "ms": 4371.475834050216,
+  "cost": 0.001956,
+  "raw": "{\"is_scam\":0.97,\"impersonation\":0.01,\"sender_mismatch\":0.06,\"phone_callback\":0.0,\"pressure\":0.6,\"unordered_charge\":0.02,\"advance_fee\":0.98,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.97,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.06,
+   "phone_callback": 0.0,
+   "pressure": 0.6,
+   "unordered_charge": 0.02,
+   "advance_fee": 0.98,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "c06",
+  "scam": true,
+  "ms": 3772.522540995851,
+  "cost": 0.00179,
+  "raw": "{\"is_scam\":0.86,\"impersonation\":0.02,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.05,\"unordered_charge\":0.01,\"advance_fee\":0.02,\"off_platform\":0.94}",
+  "answers": {
+   "is_scam": 0.86,
+   "impersonation": 0.02,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.05,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.02,
+   "off_platform": 0.94
+  }
+ },
+ {
+  "id": "c07",
+  "scam": true,
+  "ms": 4204.76970798336,
+  "cost": 0.00185,
+  "raw": "{\"is_scam\":0.45,\"impersonation\":0.01,\"sender_mismatch\":0.05,\"phone_callback\":0.0,\"pressure\":0.55,\"unordered_charge\":0.0,\"advance_fee\":0.0,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.45,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.05,
+   "phone_callback": 0.0,
+   "pressure": 0.55,
+   "unordered_charge": 0.0,
+   "advance_fee": 0.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "c08",
+  "scam": true,
+  "ms": 2552.0719999913126,
+  "cost": 0.001316,
+  "raw": "{\"is_scam\":0.99,\"impersonation\":0.07,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.12,\"unordered_charge\":0.01,\"advance_fee\":0.99,\"off_platform\":0.03}",
+  "answers": {
+   "is_scam": 0.99,
+   "impersonation": 0.07,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.12,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.99,
+   "off_platform": 0.03
+  }
+ },
+ {
+  "id": "q01",
+  "scam": true,
+  "ms": 2826.541415997781,
+  "cost": 0.00156,
+  "raw": "{\"is_scam\":0.9,\"impersonation\":0.01,\"sender_mismatch\":0.03,\"phone_callback\":0.0,\"pressure\":0.2,\"unordered_charge\":0.08,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.9,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.03,
+   "phone_callback": 0.0,
+   "pressure": 0.2,
+   "unordered_charge": 0.08,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "q02",
+  "scam": true,
+  "ms": 4739.465625025332,
+  "cost": 0.001908,
+  "raw": "{\"is_scam\":0.58,\"impersonation\":0.04,\"sender_mismatch\":0.12,\"phone_callback\":0.01,\"pressure\":0.12,\"unordered_charge\":0.15,\"advance_fee\":0.01,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.58,
+   "impersonation": 0.04,
+   "sender_mismatch": 0.12,
+   "phone_callback": 0.01,
+   "pressure": 0.12,
+   "unordered_charge": 0.15,
+   "advance_fee": 0.01,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "q03",
+  "scam": true,
+  "ms": 4051.7855420475826,
+  "cost": 0.001952,
+  "raw": "{\n  \"is_scam\": 0.95,\n  \"impersonation\": 0.85,\n  \"sender_mismatch\": 0.03,\n  \"phone_callback\": 0.0,\n  \"pressure\": 0.02,\n  \"unordered_charge\": 0.15,\n  \"advance_fee\": 0.01,\n  \"off_platform\": 0.01\n}",
+  "answers": {
+   "is_scam": 0.95,
+   "impersonation": 0.85,
+   "sender_mismatch": 0.03,
+   "phone_callback": 0.0,
+   "pressure": 0.02,
+   "unordered_charge": 0.15,
+   "advance_fee": 0.01,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "q04",
+  "scam": true,
+  "ms": 4426.704791956581,
+  "cost": 0.001846,
+  "raw": "{\"is_scam\":0.8,\"impersonation\":0.02,\"sender_mismatch\":0.93,\"phone_callback\":0.0,\"pressure\":0.01,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.8,
+   "impersonation": 0.02,
+   "sender_mismatch": 0.93,
+   "phone_callback": 0.0,
+   "pressure": 0.01,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "q05",
+  "scam": true,
+  "ms": 3565.95729093533,
+  "cost": 0.001718,
+  "raw": "{\"is_scam\":0.6,\"impersonation\":0.01,\"sender_mismatch\":0.02,\"phone_callback\":0.0,\"pressure\":0.01,\"unordered_charge\":0.05,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.6,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.02,
+   "phone_callback": 0.0,
+   "pressure": 0.01,
+   "unordered_charge": 0.05,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a01",
+  "scam": false,
+  "ms": 2213.498124969192,
+  "cost": 0.001288,
+  "raw": "{\"is_scam\":0.12,\"impersonation\":0.0,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.12,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a02",
+  "scam": false,
+  "ms": 2648.3483330812305,
+  "cost": 0.001302,
+  "raw": "{\"is_scam\":0.12,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.98,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.12,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.98,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a03",
+  "scam": false,
+  "ms": 2690.965458052233,
+  "cost": 0.001298,
+  "raw": "{\"is_scam\":0.13,\"impersonation\":0.02,\"sender_mismatch\":0.01,\"phone_callback\":0.99,\"pressure\":0.33,\"unordered_charge\":0.07,\"advance_fee\":0.01,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.13,
+   "impersonation": 0.02,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.99,
+   "pressure": 0.33,
+   "unordered_charge": 0.07,
+   "advance_fee": 0.01,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "a04",
+  "scam": false,
+  "ms": 3023.1744169723243,
+  "cost": 0.0016,
+  "raw": "{\"is_scam\":0.04,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.02,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.12}",
+  "answers": {
+   "is_scam": 0.04,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.02,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.12
+  }
+ },
+ {
+  "id": "a05",
+  "scam": false,
+  "ms": 2254.839292028919,
+  "cost": 0.001282,
+  "raw": "{\"is_scam\":0.25,\"impersonation\":0.0,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.99,\"unordered_charge\":0.05,\"advance_fee\":0.01,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.25,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.99,
+   "unordered_charge": 0.05,
+   "advance_fee": 0.01,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a06",
+  "scam": false,
+  "ms": 2360.867250012234,
+  "cost": 0.001292,
+  "raw": "{\"is_scam\":0.03,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.98,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.03,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.98,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a07",
+  "scam": false,
+  "ms": 2324.5369169162586,
+  "cost": 0.0013,
+  "raw": "{\"is_scam\":0.09,\"impersonation\":0.0,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.65,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.09,
+   "impersonation": 0.0,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.65,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a08",
+  "scam": false,
+  "ms": 2258.607874973677,
+  "cost": 0.001292,
+  "raw": "{\"is_scam\":0.03,\"impersonation\":0.01,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.01,\"unordered_charge\":0.01,\"advance_fee\":0.0,\"off_platform\":0.0}",
+  "answers": {
+   "is_scam": 0.03,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.01,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.0,
+   "off_platform": 0.0
+  }
+ },
+ {
+  "id": "a09",
+  "scam": false,
+  "ms": 4237.194999936037,
+  "cost": 0.001824,
+  "raw": "{\"is_scam\":0.65,\"impersonation\":0.02,\"sender_mismatch\":0.01,\"phone_callback\":0.0,\"pressure\":0.98,\"unordered_charge\":0.03,\"advance_fee\":0.04,\"off_platform\":0.01}",
+  "answers": {
+   "is_scam": 0.65,
+   "impersonation": 0.02,
+   "sender_mismatch": 0.01,
+   "phone_callback": 0.0,
+   "pressure": 0.98,
+   "unordered_charge": 0.03,
+   "advance_fee": 0.04,
+   "off_platform": 0.01
+  }
+ },
+ {
+  "id": "a10",
+  "scam": false,
+  "ms": 4480.300833936781,
+  "cost": 0.0023,
+  "raw": "{\n  \"is_scam\": 0.3,\n  \"impersonation\": 0.01,\n  \"sender_mismatch\": 0.02,\n  \"phone_callback\": 0.01,\n  \"pressure\": 0.01,\n  \"unordered_charge\": 0.01,\n  \"advance_fee\": 0.01,\n  \"off_platform\": 0.35\n}",
+  "answers": {
+   "is_scam": 0.3,
+   "impersonation": 0.01,
+   "sender_mismatch": 0.02,
+   "phone_callback": 0.01,
+   "pressure": 0.01,
+   "unordered_charge": 0.01,
+   "advance_fee": 0.01,
+   "off_platform": 0.35
+  }
+ }
+]

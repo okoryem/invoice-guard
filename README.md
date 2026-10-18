@@ -115,6 +115,18 @@ The overall question sets the verdict (block at 80% or above, ask above 20%). Th
 
 **Claude** (`anthropic/claude-sonnet-5.5`, through OpenRouter) writes the short note shown when the agent stops on an invoice. It is told to use only the facts given, never to give a verdict, and to treat the invoice text as data, because a scammer wrote it. Without an OpenRouter key the app shows the plain reasons instead.
 
+**Why Jev rather than a general model.** On the same 53 test invoices and the same eight questions ([`spike/model_compare.py`](spike/model_compare.py), results in [`spike/results/`](spike/results)):
+
+| Model | Correct | Median time | Cost per 1,000 invoices |
+|---|---|---|---|
+| Jev 1.13 | 49 / 53 | 0.22 s | $0.024 |
+| Claude Haiku 5.5 | 50 / 53 | 1.9 s | $0.18 |
+| Claude Sonnet 5.5 | 51 / 53 | 1.4 s | $1.92 |
+| GPT-6 Luna | 52 / 53 | 3.6 s | $0.12 |
+| GPT-6.1 Sol | 51 / 53 | 2.6 s | $1.52 |
+
+Jev was 6 to 16 times faster and 5 to 80 times cheaper, and slightly less accurate: it missed fake invoices whose wording looks normal. That is why wording never decides alone (see the next paragraph). The samples were written for this project and each model ran once, so these are indications, not benchmarks.
+
 **Plain code makes every decision.** The models judge wording and write notes; whether to pay, block, or ask is decided by tested rules in `src/lib/decide.ts`, together with facts the models cannot be talked out of: whether PayPal has the invoice, and whether this account has paid the sender before.
 
 ## Run it yourself
@@ -172,7 +184,7 @@ npm test
 | `src/lib/history.ts` | Loading past payments from PayPal |
 | `src/app/` | The dashboard and the API routes |
 | `scripts/demo-invoices.mts` | Fills the sandbox with demo invoices |
-| `spike/` | The Python experiments that tested Jev and the PayPal sandbox before the app was written |
+| `spike/` | The Python experiments that tested Jev and the PayPal sandbox before the app was written, and the comparison of Jev with general LLMs |
 
 ## Limits
 
