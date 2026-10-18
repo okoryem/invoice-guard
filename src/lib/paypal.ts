@@ -81,7 +81,7 @@ export type PayoutResult =
 /**
  * Pays a vendor's verified email. PayPal has no API for a payer to pay an invoice, so this
  * moves the money but leaves the invoice open on PayPal. The batch ID is derived from the
- * invoice ID, so PayPal itself refuses a second payout for the same invoice.
+ * invoice ID, so PayPal itself refuses a second payout for the same invoice within 30 days.
  */
 export async function sendPayout(invoiceId: string, email: string, amount: number, currency: string): Promise<PayoutResult> {
   const res = await call("/v1/payments/payouts", {

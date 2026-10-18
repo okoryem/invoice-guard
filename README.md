@@ -62,7 +62,7 @@ The email is only a pointer. The app pulls the invoice ID out of it and reads th
 
 - **A vendor paid before:** a PayPal payout to the vendor's verified email, at once if every check passed, or when the owner approves.
 - **A first-time vendor, or one with no verified email:** the owner pays on PayPal's own invoice page, then the app confirms the payment with PayPal.
-- **Never twice:** the app keeps its own record of every payment, loads past payments from PayPal's history, and builds each payout's ID from the invoice ID, so PayPal itself refuses a second payout for the same invoice.
+- **Never twice:** the app keeps its own record of every payment and loads past payments from PayPal's history. It also builds each payout's ID from the invoice ID, so for 30 days PayPal itself refuses a second payout for the same invoice, even if the app's record were lost.
 
 ### The owner stays in control
 
@@ -89,14 +89,14 @@ Things to try:
 |---|---|
 | Invoicing v2: show invoice details | The "is it real?" check. A recipient can read an invoice by its ID; an unknown ID returns "not found" and an invoice addressed to someone else is refused |
 | Invoicing v2: the invoicer's email | The vendor's identity. PayPal refuses to send an invoice whose sender email is not the sender's own, so it can be trusted |
-| Payouts | Paying known vendors, with the payout ID derived from the invoice ID to stop duplicates |
+| Payouts | Paying known vendors, with the payout ID derived from the invoice ID, which PayPal will not accept twice within 30 days |
 | Transaction Search | Loading past payments, so vendors paid before the app was connected count as known |
 | PayPal's invoice page | Paying first-time vendors, so the invoice closes properly on PayPal |
 
 Two things found in the sandbox shaped the design:
 
-- **An account cannot list the invoices it has received**, only the ones it sent. So invoices reach the app by email or paste, and PayPal is then asked for each one by its ID.
-- **There is no API for a payer to pay an invoice.** A payout moves the money but leaves the invoice open on PayPal until the vendor marks it paid. First-time vendors are therefore paid on PayPal's own page.
+- **An account cannot list the invoices it has received.** In sandbox tests, listing and searching only returned invoices the account had sent. So invoices reach the app by email or paste, and PayPal is then asked for each one by its ID.
+- **The Invoicing API has no call to pay an invoice.** It can only record a payment made somewhere else. A payout moves the money but leaves the invoice open on PayPal until the vendor marks it paid, so first-time vendors are paid on PayPal's own page.
 
 ## How it uses AI
 
@@ -192,7 +192,7 @@ npm test
 - **A made-up brand can stay under the block line.** A fake antivirus renewal from "SecureShield" scored 69%, so it went to the owner instead of being blocked. Nothing was paid, because the sender was new.
 - **Bland fake invoices read as normal.** A fake toner invoice has nothing wrong in its wording. The payment-record check catches it (an unknown sender is never paid automatically); Jev alone would not.
 - **A payout leaves the PayPal invoice open** until the vendor marks it paid.
-- **PayPal's history lags by hours,** so the app relies on its own payment record for anything recent.
+- **PayPal's history lags by up to three hours,** according to PayPal's documentation, so the app relies on its own payment record for anything recent.
 - **In the sandbox,** paying an invoice on PayPal's page while signed in as a business account failed; signing in as a personal account worked.
 - **One business per deployment,** behind one shared password. A real product would need proper sign-in.
 
