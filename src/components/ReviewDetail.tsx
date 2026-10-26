@@ -119,7 +119,13 @@ export function ReviewDetail({ review, onAct, acting }: { review: Review; onAct:
               {inv.dueDate && <span className="text-muted">, due {inv.dueDate}</span>}
             </p>
           )}
-          {review.explanation && <p className="mt-3 text-[14px] leading-[1.6]">{review.explanation}</p>}
+          {review.explanation && (
+            <p className="mt-3 text-[14px] leading-[1.6]">
+              {/* Written when the agent stopped on the invoice; once it is settled it explains the hold, not the present. */}
+              {review.outcome && <span className="font-medium">Why it was held: </span>}
+              {review.explanation}
+            </p>
+          )}
           {review.verdict === "pay" && !review.outcome && <p className="mt-3 text-[14px] leading-[1.6]">Every check passed.</p>}
           {review.outcome && <p className={`mt-3 text-[14px] font-medium leading-[1.6] ${tone.ink}`}>{outcomeText(review.outcome)}</p>}
           <Actions review={review} onAct={onAct} acting={acting} />

@@ -54,7 +54,10 @@ export async function fetchInvoice(id: string): Promise<{ real: RealCheck; invoi
   if (!res.ok) return { real: { state: "error", detail: `HTTP ${res.status}` }, invoice: null };
 
   const data = await res.json();
-  const amount = data.due_amount ?? data.amount ?? {};
+  // What is still owed, so a part-paid invoice is not paid in full again. Once nothing is
+  // owed, the invoice's total, so a paid invoice does not show as $0.
+  const due = data.due_amount;
+  const amount = due && Number(due.value) > 0 ? due : (data.amount ?? due ?? {});
   return {
     real: { state: "found" },
     invoice: {
