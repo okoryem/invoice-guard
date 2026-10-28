@@ -6,7 +6,7 @@ Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/). It 
 
 - **Live demo:** https://invoice-guard-ov23.onrender.com. Any username, password `paypalHackathon`. The first visit can take up to a minute while the server wakes.
 - **Forward an email to:** `ea17da6f59a7b1ab772e@cloudmailin.net`
-- **Demo video:** _link to come_
+- **Demo video:** https://www.youtube.com/watch?v=tk77iwL72RI
 
 ## The problem
 
